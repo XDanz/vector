@@ -36,17 +36,9 @@
 ### C++ template
 # Compiled Object files
 *.slo
-*.lo
-*.o
-*.obj
-
 # Precompiled Headers
-*.gch
-*.pch
 
 # Compiled Dynamic libraries
-*.dylib
-*.dll
 
 # Fortran module files
 *.mod
@@ -54,14 +46,7 @@
 
 # Compiled Static libraries
 *.lai
-*.la
-*.a
-*.lib
 
-# Executables
-*.exe
-*.out
-*.app
 ### CMake template
 CMakeCache.txt
 CMakeFiles
@@ -78,7 +63,7 @@ extra/
 include.mk
 lab-answers/
 lab-files/
-lab1_1.2/
-lab1_1.3/
-lab1_1.4/
 lab1_1.5/
+lab1_1.4/
+a
+data

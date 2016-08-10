@@ -27,11 +27,6 @@ set(SOURCE_FILES
     lab-files/test_must_follow_a.cpp
     lab-files/test_template_vec.cpp
     lab-files/test_vec.cpp
-    lab1_1.4/cprog09lab14.cpp
-    lab1_1.4/vector.cpp
-    lab1_1.4/vector.h
-    lab1_1.4/vector_run0.cpp
-    lab1_1.4/vector_test.cpp
     lab1_1.5/vector.h
     lab1_1.5/vector_run0.cpp)
 
@@ -40,3 +35,4 @@ add_executable(vector ${SOURCE_FILES})
 add_subdirectory(lab1_1.1)
 add_subdirectory(lab1_1.2)
 add_subdirectory(lab1_1.3)
+add_subdirectory(lab1_1.4)
