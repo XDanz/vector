@@ -56,14 +56,14 @@ cmake_install.cmake
 install_manifest.txt
 CTestTestfile.cmake
 
-.gitignore
 .idea/
 doc/
-extra/
 include.mk
-lab-answers/
 lab-files/
-lab1_1.5/
-lab1_1.4/
 a
 data
+lab1_1.1/hello
+lab1_1.2/matherrors
+lab1_1.2/runner.cpp
+lab1_1.2/test_must_follow
+lab1_1.5/vector_run15
