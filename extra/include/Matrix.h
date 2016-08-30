@@ -5,44 +5,23 @@
 #include <iostream>
 #include <stdexcept>
 
-/* template <class T> */
-/* class Vector : public std::vector< T > { */
-/* public: */
-/*     explicit Vector <T> (std::size_t size  = 0, T data = T()) :  */
-/*     std::vector<T>(size, data) {} */
-/*     const T& operator[](unsigned int i) const throw(std::out_of_range) { */
-/*         return this->at( i ); */
-/*     } */
-/*     T& operator[](unsigned int i) throw(std::out_of_range) { */
-/*         return this->at( i ); */
-/*     }     */
-/* }; */
-
-//using namespace std;
-
 class Matrix
 {
  public:
-  typedef size_t index;
-
-  class matrix_row : private Vector< int >
+  class MRow : public Vector< int >
   {
    public:
-    matrix_row( std::size_t s = 0) : Vector< int >( s ) {}
+    MRow(std::size_t s = 0) : Vector<int>(s) {}
 
-    friend std::ostream& operator<<(std::ostream& os,const matrix_row& row) {
+    friend std::ostream& operator<<(std::ostream& os, const MRow& row) {
       return os;
     }
 
-    int test() {
-      return this->[0];
-    }
-
    private:
-    friend std::istream& operator>>(std::istream& is, matrix_row& row ) {
+    friend std::istream& operator>>(std::istream& is, MRow& row) {
       int e;
-      while ( is >> e ) {
-          row.push_back ( e );
+      while (is >> e) {
+          row.push_back(e);
         }
       return is;
     }
@@ -50,35 +29,35 @@ class Matrix
 
   // matrix impl --
   Matrix (): m_rows(1), m_cols(1) {
-    m_vectors.push_back(matrix_row(m_cols));
+    m_vectors.push_back(MRow{m_cols});
   }
 
-  Matrix( std::size_t rows, std::size_t cols): m_rows(rows), m_cols(cols) {
-    for ( std::size_t i = 0 ; i < m_rows; i++ )
-      m_vectors.push_back(matrix_row(m_cols));
+  Matrix(std::size_t rows, std::size_t cols): m_rows(rows), m_cols(cols) {
+    for (std::size_t i = 0 ; i < m_rows; i++)
+      m_vectors.push_back(MRow{m_cols});
   }
 
-  Matrix( const Matrix& m):  m_rows(m.rows()), m_cols(m.cols()) {
+  Matrix(const Matrix& m):  m_rows(m.rows()), m_cols(m.cols()) {
     for ( std::size_t i = 0; i < m_rows; i++ )
-      m_vectors.push_back(matrix_row(m_cols));
+      m_vectors.push_back(MRow{m_cols});
 
-    copy_elems (m,m.rows(),m.cols());
+    copy_elems (m, m.rows(), m.cols());
   }
 
   Matrix(std::size_t size): m_rows( size) , m_cols(1) {
     for ( std::size_t i = 0; i < m_rows; i++ )
-      m_vectors.push_back(matrix_row(m_cols));
+      m_vectors.push_back(MRow(m_cols));
   }
 
   ~Matrix( ) {}
 
-  Matrix& operator= ( const Matrix& m ) {
-    if ( &m == this )
+  Matrix& operator= (const Matrix& m) {
+    if (&m == this)
       return *this;
 
     m_vectors.clear();
     for ( std::size_t i = 0; i < m.rows(); i++ ) {
-        m_vectors.push_back(matrix_row(m.cols()));
+        m_vectors.push_back(MRow{m.cols()});
       }
 
     this->m_rows = m.rows();
@@ -95,7 +74,7 @@ class Matrix
     Matrix sum(this->rows(), this->cols());
     for (std::size_t i = 0; i < this->rows(); i++ ) {
         for (std::size_t j = 0; j < this->cols(); j++) {
-            sum.operator[] (i).operator[] (j) = this->[i][j] + m.operator[] (i).operator[] (j);
+            sum[i][j] = this->[i][j] + m[i][j];
           }
       }
     return sum;
@@ -112,9 +91,9 @@ class Matrix
     for (std::size_t i = 0; i < sum.rows(); i++ ) {
         for (std::size_t j = 0; j < sum.cols(); i++ ) {
             for (std::size_t k = 0; k < sum.rows(); k++ )
-              elemSum += this->[i][k] * m.operator[] (k).operator[] (j);
+              elemSum += (*this)[i][k] * m[k][j];
 
-            sum.operator[] (i).operator[] (j) = elemSum;
+            sum[i][j] = elemSum;
             elemSum = 0;
           }
       }
@@ -128,26 +107,53 @@ class Matrix
 
     for (std::size_t i = 0; i < this->rows (); i++)
       for (std::size_t j = 0; j < this->cols (); j++)
-        {
-          const matrix_row& mtr = m[i];
-          if (mtr.operator[] (j) != this->[i][j])
-            return false;
-        }
+        if (m[i][j] != this->[i][j])
+          return false;
 
     return true;
   }
 
-  Matrix operator* ( int ) const;
-  Matrix operator-( const Matrix& ) const;
-  Matrix operator-( ) const;
+  Matrix operator* (int fac) const
+  {
+    Matrix mul {this->rows (), this->cols ()};
+    for (std::size_t i = 0; i < this->rows(); i++)
+      for (std::size_t j = 0; j < this->cols (); j++)
+        mul[i][j] = fac * this->[i][j];
 
-  Matrix& transpose( );
+    return mul;
+  }
 
-  matrix_row& operator[] (index i) {
+  Matrix operator-(const Matrix& m) const
+  {
+    if (this->cols() != m.cols () || this->rows () != m.cols ())
+      throw std::out_of_range("cols does not match row");
+
+    Matrix sub {this->rows (), this->cols ()};
+    for (std::size_t i = 0; i < this->rows(); i++)
+      for (std::size_t j = 0; j < this->cols (); j++)
+        sub[i][j] = m[i][j] - this->[i][j];
+
+    return sub;
+  }
+  Matrix operator-() const
+  {
+    Matrix neg {this->rows(), this->cols()};
+    for (std::size_t i = 0; i < this->rows(); i++)
+      for (std::size_t j = 0; j < this->cols (); j++)
+        neg[i][j] = this->[i][j]-;
+    return neg;
+  }
+
+  Matrix& transpose() {
+    // TODO!! Not implemented yet
+    return *this;
+  }
+
+  MRow& operator[] (std::size_t i) {
     return m_vectors[i];
   }
 
-  const matrix_row& operator[] (index i) const {
+  const MRow& operator[] (std::size_t i) const {
     return m_vectors[i];
   }
 
@@ -162,16 +168,15 @@ class Matrix
   void copy_elems (const Matrix& m, size_t minRows, size_t minCols) {
     for ( size_t i = 0; i < minRows; i++ ) {
         for ( size_t j = 0; j < minCols; j++ ) {
-            matrix_row mr = m[i];
-            int val = mr.operator[] (j);
+            int val = m[i][j];
             this->[i][j] = val;
           }
       }
   }
  private:
-  Vector< matrix_row >        m_vectors;
-  std::size_t                 m_rows;
-  std::size_t                 m_cols;
+  Vector<MRow> m_vectors;
+  std::size_t m_rows;
+  std::size_t m_cols;
 
   void add_row( );            // Non mandatory help function
 
@@ -195,7 +200,7 @@ class Matrix
 
     for ( std::size_t i = 0; i < vec.size(); i++ )
       for ( std::size_t j = 0; j < cols; j++ )
-        m.operator[] (i).operator[] (j) = vec[i][j];
+        m[i][j] = vec[i][j];
 
     return in;
   }
@@ -203,10 +208,10 @@ class Matrix
   friend std::ostream& operator<< (std::ostream& os, Matrix& m) {
     os << "[" ;
     for ( std::size_t i = 0; i < m.rows() ; i++ ) {
-        matrix_row row = m[i];
+        MRow row = m[i];
         os << " ";
         for ( std::size_t j = 0; j < m.cols(); j++ ) {
-            os << row.operator[] (j) << " ";
+            os << row[j] << " ";
 
           }
         if ( i+1 != m.rows() ) os << "\n;";
@@ -219,9 +224,5 @@ class Matrix
 std::istream& operator>> ( std::istream&, Matrix& );
 std::ostream& operator<< ( std::ostream&, Matrix& );
 Matrix operator* ( int, const Matrix& m);
-
-
-
-
 
 #endif // MATRIX_H
