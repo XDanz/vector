@@ -7,7 +7,7 @@ Generate your cxxtest with
 
  make testcode.cpp
 
-Test Matrix01.o with
+A Matrix01.o with
 
  make runtest01
 

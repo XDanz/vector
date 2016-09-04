@@ -378,7 +378,7 @@ int main (int argc , char **argv)
 {
 
   for ( int i = 0; i < ntests; i++ ) {
-      std::cout << "Test(" << i << ") \"" << UTests[i].name << "\"\n";
+      std::cout << "A(" << i << ") \"" << UTests[i].name << "\"\n";
     if ( UTests[i].run ) {
       UTests[i].test_fun();
       cout << " => ok \n";

@@ -119,10 +119,10 @@ void test_mv_constructor()
 
 }
 
-// Test The Assignment move
+// A The Assignment move
 void test_mv_assignment()
 {
-  cout << " Test Mv \n";
+  cout << " A Mv \n";
   {
     Vector v0 (10);
     Vector v1;
@@ -230,10 +230,10 @@ int main (int argc , char **argv)
 {
 
   for ( int i = 0; i < ntests; i++ ) {
-    cout << "Test(" << i << ") \"" << UTests[i].name << "\"\n";
+    cout << "A(" << i << ") \"" << UTests[i].name << "\"\n";
     if ( UTests[i].run ) {
       UTests[i].test_fun();
-      cout << "Test(" << i << ") \"" << UTests[i].name << "\" ok \n\n";
+      cout << "A(" << i << ") \"" << UTests[i].name << "\" ok \n\n";
     } else {
       cout << " ignored \n";
     }
