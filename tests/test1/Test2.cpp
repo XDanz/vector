@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <vector>
 
 class A {
  protected:
@@ -147,4 +148,5 @@ int main (int argc, char *argv[]) {
   std::cout << " main() => done" << std::endl;
 
 
+  return 0;
 }
