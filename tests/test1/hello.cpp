@@ -21,12 +21,12 @@ void hello (std::pair<const char *, int> pair) {
 std::pair<const char *, int> parse_args (int argc, char *argv[])
 {
   if (argc == 0)
-    return std::pair<const char *, int>{NULL, argc};
+    return std::pair<const char *, int>{"", argc};
     else if (argc == 1)
     return std::pair<const char *, int>{argv[0], argc};
   else
     {
-      return std::pair<const char *, int>{argv[0], atoi(argv[1])? atoi(argv[1]): -1 };
+      return std::pair<const char *, int>{argv[0], std::atoi(argv[1])? atoi(argv[1]): -1 };
     }
 }
 

@@ -1,14 +1,13 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 #include "vector.h"
-#include "../../lab1_1.5/include/vector.h"
 #include <iostream>
 #include <stdexcept>
 
 class Matrix
 {
  public:
-  class MRow : public Vector< int >
+  class MRow: public Vector<int>
   {
    public:
     MRow(std::size_t s = 0) : Vector<int>(s) {}
@@ -56,7 +55,7 @@ class Matrix
       return *this;
 
     m_vectors.clear();
-    for ( std::size_t i = 0; i < m.rows(); i++ ) {
+    for (std::size_t i = 0; i < m.rows(); i++ ) {
         m_vectors.push_back(MRow{m.cols()});
       }
 
@@ -74,7 +73,7 @@ class Matrix
     Matrix sum(this->rows(), this->cols());
     for (std::size_t i = 0; i < this->rows(); i++ ) {
         for (std::size_t j = 0; j < this->cols(); j++) {
-            sum[i][j] = this->[i][j] + m[i][j];
+            sum[i][j] = (*this)[i][j] + m[i][j];
           }
       }
     return sum;
@@ -107,7 +106,7 @@ class Matrix
 
     for (std::size_t i = 0; i < this->rows (); i++)
       for (std::size_t j = 0; j < this->cols (); j++)
-        if (m[i][j] != this->[i][j])
+        if (m[i][j] != (*this)[i][j])
           return false;
 
     return true;
@@ -118,7 +117,7 @@ class Matrix
     Matrix mul {this->rows (), this->cols ()};
     for (std::size_t i = 0; i < this->rows(); i++)
       for (std::size_t j = 0; j < this->cols (); j++)
-        mul[i][j] = fac * this->[i][j];
+        mul[i][j] = fac * (*this)[i][j];
 
     return mul;
   }
@@ -131,7 +130,7 @@ class Matrix
     Matrix sub {this->rows (), this->cols ()};
     for (std::size_t i = 0; i < this->rows(); i++)
       for (std::size_t j = 0; j < this->cols (); j++)
-        sub[i][j] = m[i][j] - this->[i][j];
+        sub[i][j] = m[i][j] - (*this)[i][j];
 
     return sub;
   }
@@ -140,7 +139,7 @@ class Matrix
     Matrix neg {this->rows(), this->cols()};
     for (std::size_t i = 0; i < this->rows(); i++)
       for (std::size_t j = 0; j < this->cols (); j++)
-        neg[i][j] = this->[i][j]-;
+        neg[i][j] = (*this)[i][j];
     return neg;
   }
 
@@ -169,7 +168,7 @@ class Matrix
     for ( size_t i = 0; i < minRows; i++ ) {
         for ( size_t j = 0; j < minCols; j++ ) {
             int val = m[i][j];
-            this->[i][j] = val;
+            (*this)[i][j] = val;
           }
       }
   }

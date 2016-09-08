@@ -22,10 +22,9 @@ using namespace std;
 
 int main (int argc, char *argv[]) 
 {
-  
   printf("Hello ");
 
-  if ( argc > 1 ) {
+  if (argc > 1) {
 
     char *ptr = '\0';
     long n = strtol (*++argv, &ptr,10);
