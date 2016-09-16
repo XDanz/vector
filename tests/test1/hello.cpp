@@ -1,7 +1,6 @@
 //
 // Created by danter on 2016-09-07.
 //
-
 #include <iostream>
 
 void hello (std::pair<const char *, int> pair) {
@@ -18,7 +17,8 @@ void hello (std::pair<const char *, int> pair) {
 }
 
 
-std::pair<const char *, int> parse_args (int argc, char *argv[])
+std::pair<const char *, int>
+parse_args (int argc, char *argv[])
 {
   if (argc == 0)
     return std::pair<const char *, int>{"", argc};
@@ -29,5 +29,3 @@ std::pair<const char *, int> parse_args (int argc, char *argv[])
       return std::pair<const char *, int>{argv[0], std::atoi(argv[1])? atoi(argv[1]): -1 };
     }
 }
-
-
